@@ -1,0 +1,18 @@
+FROM centos:7
+RUN yum install gcc* -y
+RUN yum install -y https://centos7.iuscommunity.org/ius-release.rpm
+RUN yum update
+RUN yum install -y python36u python36u-libs python36u-devel python36u-pip
+RUN yum install supervisor -y
+#ADD supervisor.conf /etc/supervisor.conf
+RUN pip3.6 install virtualenv
+RUN pip3.6 install setuptools
+#RUN git clone https://github.com/Yelp/elastalert
+#RUN cd elastalert/ && python3.6 setup.py install && cp config.yaml.example config.yaml && elastalert
+RUN pip3.6 install elastalert
+ADD config.yaml /opt/
+#RUN elastalert-create-index --config /opt/config.yaml
+#RUN pwd
+#RUN elastalert --config /opt/config.yaml --rule /opt/rules/
+#CMD ["supervisord", "-c", "/etc/supervisor.conf"]
+CMD ["supervisord"]
